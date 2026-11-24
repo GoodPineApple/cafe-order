@@ -16,8 +16,7 @@ function App() {
   const [checking, setChecking] = useState(true); // 처음에 로그인 상태를 확인하는 중
 
   useEffect(() => {
-    document.title =
-      cart.length > 0 ? `(${cart.length}) 오즈 카페` : "오즈 카페";
+    document.title = cart.length > 0 ? `(${cart.length}) 오즈 카페` : "오즈 카페";
   }, [cart.length]);
 
   useEffect(() => {
@@ -46,21 +45,8 @@ function App() {
       <Route element={<Layout count={cart.length} user={user} />}>
         <Route index element={<MenuPage onAdd={handleAdd} />} />
         <Route path="menu/:id" element={<MenuDetailPage onAdd={handleAdd} />} />
-        <Route
-          path="cart"
-          element={
-            <CartPage
-              cart={cart}
-              user={user}
-              onRemove={handleRemove}
-              onClear={handleClear}
-            />
-          }
-        />
-        <Route
-          path="login"
-          element={<LoginPage user={user} checking={checking} />}
-        />
+        <Route path="cart" element={<CartPage cart={cart} user={user} onRemove={handleRemove} onClear={handleClear} />} />
+        <Route path="login" element={<LoginPage user={user} checking={checking} />} />
         {/* 로그인해야 들어가는 페이지 */}
         <Route element={<PrivateRoute user={user} checking={checking} />}>
           <Route path="orders" element={<OrdersPage user={user} />} />
