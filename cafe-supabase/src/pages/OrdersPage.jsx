@@ -24,10 +24,7 @@ function OrdersPage({ user }) {
   }, [user.id]);
 
   async function cancelOrder(order) {
-    const { error } = await supabase
-      .from("orders")
-      .TODO 5()
-      .eq("id", order.id);
+    const { error } = await supabase.from("orders").delete().eq("id", order.id);
     if (error) {
       setMessage(error.message);
       return;
@@ -44,7 +41,10 @@ function OrdersPage({ user }) {
       ) : (
         <ul className="divide-y divide-stone-200 rounded-2xl bg-white ring-1 ring-stone-200">
           {orders.map((order) => (
-            <li key={order.id} className="flex items-center justify-between gap-3 px-5 py-3">
+            <li
+              key={order.id}
+              className="flex items-center justify-between gap-3 px-5 py-3"
+            >
               <span>
                 {order.items.join(", ")} — {order.total}원
               </span>

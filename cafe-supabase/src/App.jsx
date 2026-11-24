@@ -16,12 +16,13 @@ function App() {
   const [checking, setChecking] = useState(true); // 처음에 로그인 상태를 확인하는 중
 
   useEffect(() => {
-    document.title = cart.length > 0 ? `(${cart.length}) 오즈 카페` : "오즈 카페";
+    document.title =
+      cart.length > 0 ? `(${cart.length}) 오즈 카페` : "오즈 카페";
   }, [cart.length]);
 
   useEffect(() => {
     // 처음 한 번(INITIAL_SESSION), 그 뒤 로그인 · 로그아웃할 때마다 불림
-    const { data } = supabase.auth.TODO 2((event, session) => {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session ? session.user : null);
       setChecking(false);
     });
@@ -45,8 +46,21 @@ function App() {
       <Route element={<Layout count={cart.length} user={user} />}>
         <Route index element={<MenuPage onAdd={handleAdd} />} />
         <Route path="menu/:id" element={<MenuDetailPage onAdd={handleAdd} />} />
-        <Route path="cart" element={<CartPage cart={cart} user={user} onRemove={handleRemove} onClear={handleClear} />} />
-        <Route path="login" element={<LoginPage user={user} checking={checking} />} />
+        <Route
+          path="cart"
+          element={
+            <CartPage
+              cart={cart}
+              user={user}
+              onRemove={handleRemove}
+              onClear={handleClear}
+            />
+          }
+        />
+        <Route
+          path="login"
+          element={<LoginPage user={user} checking={checking} />}
+        />
         {/* 로그인해야 들어가는 페이지 */}
         <Route element={<PrivateRoute user={user} checking={checking} />}>
           <Route path="orders" element={<OrdersPage user={user} />} />
